@@ -4,16 +4,18 @@ import ProfileScreen from "../screens/Dashboard/ProfileScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar, useWindowDimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import ChannelScreen from "../screens/Dashboard/ChannelScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function MyTabs() {
 
    const {width, height} = useWindowDimensions()
   
   return (
-    <NavigationContainer>
-
+<>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <Tab.Navigator
       screenOptions={{ 
@@ -24,7 +26,7 @@ function MyTabs() {
           name="Home"
           component={HomeScreen}
           options={{
-            title: 'Home',
+            title: 'Chats',
             tabBarIcon: ({size, color}) => (
               <FontAwesome5 name = 'home' size = {size} color = {color} />
             )
@@ -41,8 +43,32 @@ function MyTabs() {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+
+      </>
   );
 }
 
-export default MyTabs;
+export default function AppNavigator() {
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      <Stack.Navigator
+      // screenOptions={{
+      //   headerShown:false
+      // }}
+      >
+
+        <Stack.Screen
+          name="MainTabs"
+          component={MyTabs}
+          options={{ headerShown: false }} 
+        />
+
+        <Stack.Screen
+          name="Channel"
+          component={ChannelScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
